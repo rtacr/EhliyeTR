@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:ehliyet_app/class/testResult.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
+
+
 ///Series class for the chart
 class ResultSeries {
   final int count;
@@ -40,6 +42,15 @@ class _PerformancePageState extends State<PerformancePage> {
       //     spreadRadius: 0.2),
     ],
   );
+
+  var behs = [new charts.SeriesLegend(
+                        showMeasures: true,
+                        legendDefaultMeasure: charts.LegendDefaultMeasure.average,
+                        outsideJustification: charts.OutsideJustification.endDrawArea,
+                        entryTextStyle: charts.TextStyleSpec(
+                          fontSize: 18,
+                          color: charts.Color.fromHex(code: "#c16c84")))];
+
   @override
   void initState() {
     super.initState();
@@ -48,7 +59,10 @@ class _PerformancePageState extends State<PerformancePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Analizlerim", style: TextStyle(color: nicePink)), centerTitle: true, elevation: 0),
+      appBar: AppBar(
+          title: Text("Analizlerim", style: TextStyle(color: nicePink)),
+          centerTitle: true,
+          elevation: 0),
       body: FutureBuilder<List<TestResult>>(
           future: sdb.getAllResults(),
           builder: (context, snapshot) {
@@ -77,6 +91,7 @@ class _PerformancePageState extends State<PerformancePage> {
               //     xAxis: dateList[i]));
             }
             return ListView(children: [
+              
               SizedBox(height: 24),
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -90,9 +105,9 @@ class _PerformancePageState extends State<PerformancePage> {
                         child: charts.BarChart(
                       [
                         charts.Series<ResultSeries, String>(
-                            id: 'Doğru',
+                            id: 'Yanlış',
                             colorFn: (ResultSeries res, _) =>
-                          charts.Color.fromHex(code: "#f7b186"),
+                                charts.Color.fromHex(code: "#f7b186"),
                             domainFn: (ResultSeries res, _) =>
                                 TestResult().dtFormat(dateList[res.date]),
                             measureFn: (ResultSeries res, _) => res.count,
@@ -105,7 +120,7 @@ class _PerformancePageState extends State<PerformancePage> {
                         charts.Series<ResultSeries, String>(
                             id: 'Doğru',
                             colorFn: (ResultSeries res, _) =>
-                          charts.Color.fromHex(code: "#7FAA98"),
+                                charts.Color.fromHex(code: "#7FAA98"),
                             domainFn: (ResultSeries res, _) =>
                                 TestResult().dtFormat(dateList[res.date]),
                             measureFn: (ResultSeries res, _) => res.count,
@@ -117,10 +132,10 @@ class _PerformancePageState extends State<PerformancePage> {
                                   color: Colors.green);
                             })),
                       ],
+                      behaviors: behs,
                       barGroupingType: charts.BarGroupingType.grouped,
-                      
                     )),
-                  ],
+                  ]
                 ),
               ),
               Container(
@@ -136,11 +151,11 @@ class _PerformancePageState extends State<PerformancePage> {
                         child: charts.BarChart(
                       [
                         charts.Series<ResultSeries, String>(
-                            
-                          // TestResult().dtFormat(dateList[date]),
-                            id: 'Doğru',
+
+                            // TestResult().dtFormat(dateList[date]),
+                            id: 'Yanlış',
                             colorFn: (ResultSeries res, _) =>
-                          charts.Color.fromHex(code: "#f7b186"),
+                                charts.Color.fromHex(code: "#f7b186"),
                             domainFn: (ResultSeries res, _) =>
                                 TestResult().dtFormat(dateList[res.date]),
                             measureFn: (ResultSeries res, _) => res.count,
@@ -153,7 +168,7 @@ class _PerformancePageState extends State<PerformancePage> {
                         charts.Series<ResultSeries, String>(
                             id: 'Doğru',
                             colorFn: (ResultSeries res, _) =>
-                          charts.Color.fromHex(code: "#7FAA98"),
+                                charts.Color.fromHex(code: "#7FAA98"),
                             domainFn: (ResultSeries res, _) =>
                                 TestResult().dtFormat(dateList[res.date]),
                             measureFn: (ResultSeries res, _) => res.count,
@@ -164,6 +179,7 @@ class _PerformancePageState extends State<PerformancePage> {
                                   color: Colors.green);
                             })),
                       ],
+                      behaviors: behs,
                       barGroupingType: charts.BarGroupingType.grouped,
                       animate: true,
                     )),
@@ -183,11 +199,11 @@ class _PerformancePageState extends State<PerformancePage> {
                         child: charts.BarChart(
                       [
                         charts.Series<ResultSeries, String>(
-                            
-                          // TestResult().dtFormat(dateList[date]),
-                            id: 'Doğru',
+
+                            // TestResult().dtFormat(dateList[date]),
+                            id: 'Yanlış',
                             colorFn: (ResultSeries res, _) =>
-                          charts.Color.fromHex(code: "#f7b186"),
+                                charts.Color.fromHex(code: "#f7b186"),
                             domainFn: (ResultSeries res, _) =>
                                 TestResult().dtFormat(dateList[res.date]),
                             measureFn: (ResultSeries res, _) => res.count,
@@ -200,7 +216,7 @@ class _PerformancePageState extends State<PerformancePage> {
                         charts.Series<ResultSeries, String>(
                             id: 'Doğru',
                             colorFn: (ResultSeries res, _) =>
-                          charts.Color.fromHex(code: "#7FAA98"),
+                                charts.Color.fromHex(code: "#7FAA98"),
                             domainFn: (ResultSeries res, _) =>
                                 TestResult().dtFormat(dateList[res.date]),
                             measureFn: (ResultSeries res, _) => res.count,
@@ -212,6 +228,7 @@ class _PerformancePageState extends State<PerformancePage> {
                             })),
                       ],
                       barGroupingType: charts.BarGroupingType.grouped,
+                      behaviors: behs,
                       animate: true,
                     )),
                   ],
@@ -230,11 +247,11 @@ class _PerformancePageState extends State<PerformancePage> {
                         child: charts.BarChart(
                       [
                         charts.Series<ResultSeries, String>(
-                            
-                          // TestResult().dtFormat(dateList[date]),
-                            id: 'Doğru',
+
+                            // TestResult().dtFormat(dateList[date]),
+                            id: 'Yanlış',
                             colorFn: (ResultSeries res, _) =>
-                          charts.Color.fromHex(code: "#f7b186"),
+                                charts.Color.fromHex(code: "#f7b186"),
                             domainFn: (ResultSeries res, _) =>
                                 TestResult().dtFormat(dateList[res.date]),
                             measureFn: (ResultSeries res, _) => res.count,
@@ -247,7 +264,7 @@ class _PerformancePageState extends State<PerformancePage> {
                         charts.Series<ResultSeries, String>(
                             id: 'Doğru',
                             colorFn: (ResultSeries res, _) =>
-                          charts.Color.fromHex(code: "#7FAA98"),
+                                charts.Color.fromHex(code: "#7FAA98"),
                             domainFn: (ResultSeries res, _) =>
                                 TestResult().dtFormat(dateList[res.date]),
                             measureFn: (ResultSeries res, _) => res.count,
@@ -259,11 +276,13 @@ class _PerformancePageState extends State<PerformancePage> {
                             })),
                       ],
                       barGroupingType: charts.BarGroupingType.grouped,
+                      behaviors: behs,
                       animate: true,
                     )),
                   ],
                 ),
               ),
+              SizedBox(height: MediaQuery.of(context).size.height / 8)
             ]);
           }),
     );

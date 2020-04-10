@@ -4,9 +4,17 @@ import 'package:http/http.dart' as http;
 import 'package:ehliyet_app/class/exam.dart';
 import 'package:ehliyet_app/class/question.dart';
 import 'package:ehliyet_app/utils/dbUtils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 exam() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  if(prefs.containsKey("lastFetch")){ 
+    DateTime lastFetch = DateTime.parse(await prefs.getString("last_fetch"));
+    if(DateTime.now().difference(lastFetch) < Duration(days: 1))  return;
+  }
+  
   var result = await getData();
+  await prefs.setString("last_fetch", DateTime.now().toIso8601String());
   DatabaseUtils db = DatabaseUtils();
 
   for (var index = 0;

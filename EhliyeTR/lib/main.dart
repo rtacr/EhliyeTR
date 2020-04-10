@@ -4,6 +4,7 @@ import 'package:ehliyet_app/pages/AdminControls.dart';
 import 'package:ehliyet_app/pages/CardyExamPage.dart';
 import 'package:ehliyet_app/pages/PerformancePage.dart';
 import 'package:ehliyet_app/pages/lectureView.dart';
+import 'package:ehliyet_app/utils/SizeConfig.dart';
 import 'package:ehliyet_app/utils/fetchQuestions.dart';
 import 'package:ehliyet_app/widgets/singleGraph.dart';
 import 'package:firebase_admob/firebase_admob.dart';
@@ -13,16 +14,17 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  exam();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   return runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    exam();
     ThemeData _temp;
     return FutureBuilder(
       future: loadFromSP(),
@@ -109,14 +111,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    // _bannerAd.dispose();
+    _bannerAd.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final _themeChanger = Provider.of<ThemeChanger>(context);
-
+    SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -145,7 +147,7 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         padding: EdgeInsets.all(12),
         child: Column(children: [
-          Flexible(flex: 3, child: SingleGraphWidget()),
+          Flexible(flex: 4, child: SingleGraphWidget()),
           Flexible(
             flex: 5,
             child: Row(
@@ -157,20 +159,24 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          height: MediaQuery.of(context).size.height / 4.5,
-                          width: MediaQuery.of(context).size.width / 2.8,
+                          height: SizeConfig.safeBlockVertical * 20,
+                          width: SizeConfig.safeBlockHorizontal * 40,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: Theme.of(context).cardColor,
                           ),
                           child: InkWell(
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Icon(Icons.check_box, size: 100),
+                                Icon(Icons.check_box,
+                                    size: SizeConfig.blockSizeHorizontal * 20),
                                 Expanded(
                                   child: Text(
-                                    "Konu Anlatımı",
+                                    "Konu \nAnlatımı",
                                     style: TextStyle(
+                                        fontSize:
+                                            SizeConfig.blockSizeHorizontal * 5,
                                         color: Color(0xFF7c16c84),
                                         fontWeight: FontWeight.w900),
                                     textAlign: TextAlign.center,
@@ -188,19 +194,23 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.height / 4.5,
-                          width: MediaQuery.of(context).size.width / 2.8,
+                          height: SizeConfig.safeBlockVertical * 20,
+                          width: SizeConfig.safeBlockHorizontal * 40,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: Theme.of(context).cardColor,
                           ),
                           child: InkWell(
                             child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Icon(Icons.show_chart, size: 120),
+                                Icon(Icons.show_chart,
+                                    size: SizeConfig.blockSizeHorizontal * 20),
                                 Text(
                                   "Analiz",
                                   style: TextStyle(
+                                      fontSize:
+                                          SizeConfig.blockSizeHorizontal * 5,
                                       color: Color(0xFF7c16c84),
                                       fontWeight: FontWeight.w900),
                                   textAlign: TextAlign.center,
@@ -208,19 +218,10 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                             onTap: () {
-                              hideBanner();
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => WillPopScope(
-                                        onWillPop: () {
-                                          Navigator.pop(context);
-                                          _bannerAd = createBanner()
-                                            ..load()
-                                            ..show();
-                                          return Future.value(true);
-                                        },
-                                        child: PerformancePage()),
+                                    builder: (context) => PerformancePage(),
                                   ));
                             },
                           ),
@@ -235,12 +236,14 @@ class _HomePageState extends State<HomePage> {
                   width: MediaQuery.of(context).size.width / 2,
                   child: InkWell(
                     child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Icon(Icons.book, size: 120),
+                          Icon(Icons.book,
+                              size: SizeConfig.blockSizeHorizontal * 30),
                           Text(
-                            "Deneme Çöz",
+                            "Deneme\nÇöz",
                             style: TextStyle(
+                                fontSize: SizeConfig.blockSizeHorizontal * 5,
                                 color: Color(0xFF7c16c84),
                                 fontWeight: FontWeight.w900),
                             textAlign: TextAlign.center,

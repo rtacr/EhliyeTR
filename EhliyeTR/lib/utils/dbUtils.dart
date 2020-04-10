@@ -74,10 +74,14 @@ class DatabaseUtils {
             question.id.toString()));
     if (!(check > 0)) {
       await db.insert(tableName, question.toMap());
+    }else{
+      await db.update(tableName, question.toMap(), where: 'ID = ${question.id.toString()}');
     }
   }
 
-  ///Mark as Asked
+  ///Mark as Asked.
+  ///Sets [Asked] Value To [1]
+  ///
   markQuestion(int id) async {
     var path = await getPath();
     Database db = await database();

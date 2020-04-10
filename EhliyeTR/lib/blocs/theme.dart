@@ -85,4 +85,4 @@ ThemeData lightTheme = ThemeData(
     //primarySwatch: MaterialColor(0xFFC8963C ,color)
     primarySwatch: MaterialColor(0xFFf8f1d6, color));
 
-Color nicePink = Color(0xFF7c16c84);
+Color nicePink = Color(0xFFc16c84);

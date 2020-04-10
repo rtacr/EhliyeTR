@@ -1,3 +1,4 @@
+import 'package:ehliyet_app/utils/SizeConfig.dart';
 import 'package:flutter/material.dart';
 import 'package:ehliyet_app/class/question.dart';
 import 'package:ehliyet_app/widgets/AnswerWidget.dart';
@@ -14,8 +15,8 @@ class QuestionWidget extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.all(24),
         children: [
-          Text(question.questionText,
-              style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18, color: Color(0xFF7c16c84))),
+          Text(question.questionText.replaceAll("\\n", "\n"),
+              style: TextStyle(fontWeight: FontWeight.w900, fontSize: SizeConfig.safeBlockHorizontal * 5, color: Color(0xFF7c16c84))),
           SizedBox(height: 50),
           Container(
             child: Column(

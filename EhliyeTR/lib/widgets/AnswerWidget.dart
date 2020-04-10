@@ -1,6 +1,7 @@
 import 'package:ehliyet_app/blocs/ExamState.dart';
 import 'package:ehliyet_app/blocs/theme.dart';
 import 'package:ehliyet_app/class/question.dart';
+import 'package:ehliyet_app/utils/SizeConfig.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -49,12 +50,12 @@ class AnswerWidget extends StatelessWidget {
           leading: CircleAvatar(
               child: Text(leading,
                   style: TextStyle(
-                      fontSize: 24,
+                      fontSize: SizeConfig.safeBlockHorizontal * 6,
                       color: Theme.of(context).buttonColor,
                       fontWeight: FontWeight.w900)),
               backgroundColor: Color(0xFF7c16c84)),
           title: Text(answer.answerText, style: TextStyle(
-              fontSize: 16,
+              fontSize: SizeConfig.safeBlockHorizontal * 5,
                 color: Color(0xFF7c16c84),
                 fontWeight: FontWeight.bold),),
         ),

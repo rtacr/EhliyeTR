@@ -33,6 +33,9 @@ class CardyExamPage extends StatelessWidget {
     final _themeChanger = Provider.of<ThemeChanger>(context);
 
     ExamState examState = Provider.of<ExamState>(context);
+
+    Question question = exam.questions[examState.getCurrentIndex()];
+
     double initalX = 0;
 
     showFinishDialog(BuildContext c) {
@@ -56,25 +59,13 @@ class CardyExamPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      FlatButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(
-                            "Geri Dön",
-                            style: TextStyle(color: nicePink),
-                          )),
-                      RaisedButton(
-                          onPressed: () {
-                            examState.revealAll();
-                            Navigator.of(context).pop();
-                          },
-                          elevation: 0,
-                          child: Text(
-                            "Bitir",
-                            style: TextStyle(color: nicePink),
-                          ),
-                          color: Theme.of(context).cardColor)
+                      FlatButton(onPressed: () {
+                        Navigator.of(context).pop();
+                      }, child: Text("Geri Dön", style: TextStyle(color: nicePink),)),
+                      RaisedButton(onPressed: () {
+                        examState.revealAll();
+                        Navigator.of(context).pop();
+                      }, elevation: 0, child: Text("Bitir", style: TextStyle(color: nicePink),), color: Theme.of(context).cardColor)
                     ],
                   )
                 ]),
@@ -116,38 +107,70 @@ class CardyExamPage extends StatelessWidget {
         ],
       ),
       body: Container(
-          alignment: Alignment.center,
-          child: Container(
-            height: SizeConfig.safeBlockVertical * 80,
-            width: SizeConfig.safeBlockHorizontal * 90,
-            decoration: BoxDecoration(
-                border: Border.all(color: Color(0xFF7c16c84), width: 2),
-                color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.all(Radius.circular(15))),
-            child: GestureDetector(
-              onHorizontalDragStart: (details) {
-                initalX = details.localPosition.dx;
-              },
-              onHorizontalDragEnd: (details) {
-                double distance = details.velocity.pixelsPerSecond.dx;
-                if (distance.abs() > 500) {
-                  if (distance > 0)
-                    examState.changeQuestion(examState.getCurrentIndex() - 1);
-                  else
-                    examState.changeQuestion(examState.getCurrentIndex() + 1);
-                }
-              },
-              child: Container(
-                child:
-                    QuestionWidget(exam.questions[examState.getCurrentIndex()]),
-              ),
+          child: Stack(
+              children: List<Widget>.generate(exam.questions.length, (i) {
+        int offset_value_x =
+            ((exam.questions.length - examState.getCurrentIndex() - i) * 10);
+        int offset_value_y = offset_value_x;
+        if (exam.questions.length - examState.getCurrentIndex() - 1 < i) {
+          offset_value_x = -350 + (offset_value_x);
+          offset_value_y = 10;
+        }
+        // if(examState.getCurrentIndex() + 3 < i) return Container();
+        offset_value_y = 0;
+        return AnimatedPositioned(
+          curve: Curves.fastLinearToSlowEaseIn,
+          duration: Duration(milliseconds: 500),
+          top: 10.0 + offset_value_y,
+          //top: 10.0 + i * 200,
+          left: SizeConfig.safeBlockHorizontal * 10 + offset_value_x,
+          child: GestureDetector(
+            onHorizontalDragStart: (details) {
+              initalX = details.localPosition.dx;
+            },
+            onHorizontalDragEnd: (details) {
+              double distance = details.velocity.pixelsPerSecond.dx;
+              if (distance.abs() > 500) {
+                if (distance > 0)
+                  examState.changeQuestion(examState.getCurrentIndex() - 1);
+                else
+                  examState.changeQuestion(examState.getCurrentIndex() + 1);
+              }
+            },
+            child: Builder(
+              builder: (c) {
+                return Container(
+                  height: SizeConfig.safeBlockVertical * 75,
+                  width: SizeConfig.safeBlockHorizontal * 80,
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        // BoxShadow(
+                        //     color: Colors.black,
+                        //     offset: Offset(4.0, 4.0),
+                        //     blurRadius: 8.0,
+                        //     spreadRadius: 0.2),
+                        // BoxShadow(
+                        //     color: Colors.grey[800],
+                        //     offset: Offset(-4.0, -4.0),
+                        //     blurRadius: 8.0,
+                        //     spreadRadius: 0.2),
+                      ],
+                      border: Border.all(color: Color(0xFF7c16c84), width: 2),
+                      color: Theme.of(context).cardColor,
+                      borderRadius: BorderRadius.all(Radius.circular(15))),
+                  child:
+                      QuestionWidget(exam.questions[exam.questions.length - i - 1]),
+                );
+              }
             ),
-          )),
+          ),
+        );
+      }))),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
         margin: EdgeInsets.only(bottom: 24),
         alignment: Alignment.center,
-        width: SizeConfig.safeBlockHorizontal * 25,
+        width: SizeConfig.safeBlockHorizontal  * 25,
         height: SizeConfig.safeBlockVertical * 7,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(10)),

@@ -1,4 +1,5 @@
 import 'package:ehliyet_app/blocs/theme.dart';
+import 'package:ehliyet_app/utils/SizeConfig.dart';
 import 'package:ehliyet_app/utils/constantValues.dart';
 import 'package:ehliyet_app/utils/dbUtils.dart';
 import 'package:flutter/material.dart';
@@ -50,17 +51,9 @@ class _PerformancePageState extends State<SingleGraphWidget> {
           overallTr.t3True += snapshot.data[i].t3True;
           overallTr.t3False += snapshot.data[i].t3False;
           dateList.add(DateTime.parse(snapshot.data[i].dateTime));
-          // overallWrong.add(DataPoint(
-          //     value: (snapshot.data[i].falseCount) * 1.0,
-          //     xAxis: dateList[i]));
-          // overallTrue.add(DataPoint(
-          //     value: (snapshot.data[i].questionCount -
-          //             snapshot.data[i].falseCount) *
-          //         1.0,
-          //     xAxis: dateList[i]));
         }
         return Container(
-          margin: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 12),
           decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
               borderRadius: BorderRadius.all(
@@ -79,7 +72,7 @@ class _PerformancePageState extends State<SingleGraphWidget> {
                   child: charts.BarChart(
                 [
                   charts.Series<ResultSeries, String>(
-                      id: 'Doğru',
+                      id: 'Yanlış',
                       colorFn: (ResultSeries res, _) =>
                           charts.Color.fromHex(code: "#f7b186"),
                       domainFn: (ResultSeries res, _) =>
@@ -106,6 +99,13 @@ class _PerformancePageState extends State<SingleGraphWidget> {
                             color: Colors.green);
                       })),
                 ],
+                behaviors: [new charts.SeriesLegend(
+                        showMeasures: true,
+                        legendDefaultMeasure: charts.LegendDefaultMeasure.average,
+                        outsideJustification: charts.OutsideJustification.endDrawArea,
+                        entryTextStyle: charts.TextStyleSpec(
+                          fontSize: 18,
+                          color: charts.Color.fromHex(code: "#c16c84")))],
                 barGroupingType: charts.BarGroupingType.grouped,
               )),
             ],

@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 2.0.2+4
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -27,7 +27,7 @@ dependencies:
   shared_preferences: ^0.5.6+1
   cupertino_icons: ^0.1.2
   sqflite: ^1.3.0
-  charts_flutter: ^0.9.0
+  charts_flutter: ^0.9.0  
   flutter_plugin_pdf_viewer: any
   flare_flutter: ^2.0.1
   firebase_admob: ^0.9.3
@@ -49,8 +49,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #  - images/a_dot_burr.jpeg
+  assets:
+   - assets/Yakında.flr
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

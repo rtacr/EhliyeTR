@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:ehliyet_app/class/question.dart';
+import 'package:ehliyet_app/utils/constantValues.dart';
 import 'package:ehliyet_app/utils/dbUtils.dart';
 
 class Exam {
@@ -23,15 +24,11 @@ class Exam {
 
     int questionCount = 25;
     List<int> topicsPercents = [4, 11, 10];
-    List<String> topicNames = [
-      "İlk Yardım",
-      "Trafik ve Çevre Bilgisi",
-      "Motor ve Araç Tekniği"
-    ];
 
-    List<Question> topic1List = await db.getAllFromTopic(topicNames[0]);
-    List<Question> topic2List = await db.getAllFromTopic(topicNames[1]);
-    List<Question> topic3List = await db.getAllFromTopic(topicNames[2]);
+
+    List<Question> topic1List = await db.getAllFromTopic(topic1);
+    List<Question> topic2List = await db.getAllFromTopic(topic2);
+    List<Question> topic3List = await db.getAllFromTopic(topic3);
     List<Question> questionList = new List<Question>();
 
     for (var i = 0; i < topicsPercents[0]; i++) {
