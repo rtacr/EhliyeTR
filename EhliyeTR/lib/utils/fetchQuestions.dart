@@ -42,8 +42,6 @@ exam() async {
 }
 
 getData() async {
-  //normal sorular = '1vf8aj8-8Y_QrTP3VMW8L-ceQabLVnFnh0q5OJftvmzY';
-
   var url = 'https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetID}/' +
       'values:batchGet?ranges=A2%3AA&ranges=B2%3AB&ranges=C2%3AC&ranges=D2%3AD' +
       '&ranges=E2%3AE&ranges=F2%3AF&ranges=G2%3AG&ranges=H2%3AH&ranges=I2%3AI&ranges=J2%3AJ&ranges=K2%3AK&ranges=L2%3AL' +
