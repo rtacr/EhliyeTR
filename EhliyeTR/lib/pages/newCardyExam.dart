@@ -63,7 +63,7 @@ class CardyExamPage extends StatelessWidget {
                         Navigator.of(context).pop();
                       }, child: Text("Geri Dön", style: TextStyle(color: nicePink),)),
                       RaisedButton(onPressed: () {
-                        examState.revealAll();
+                        examState.revealAll(c);
                         Navigator.of(context).pop();
                       }, elevation: 0, child: Text("Bitir", style: TextStyle(color: nicePink),), color: Theme.of(context).cardColor)
                     ],
@@ -73,7 +73,6 @@ class CardyExamPage extends StatelessWidget {
             );
           });
     }
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -167,7 +166,8 @@ class CardyExamPage extends StatelessWidget {
         );
       }))),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
+      floatingActionButton: 
+      Container(
         margin: EdgeInsets.only(bottom: 24),
         alignment: Alignment.center,
         width: SizeConfig.safeBlockHorizontal  * 25,
@@ -178,8 +178,11 @@ class CardyExamPage extends StatelessWidget {
             border: Border.all(width: 2, color: nicePink)),
         child: InkWell(
           onTap: () {
-            showFinishDialog(context);
-            // examState.revealAll();
+            print(examState.getRevealState(5));
+            if(examState.getRevealState(5))
+              Navigator.of(context).pop();
+            else
+              showFinishDialog(context);
           },
           child: Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
@@ -266,9 +269,9 @@ class CardyExamPage extends StatelessWidget {
                           width: SizeConfig.blockSizeHorizontal * 7,
                           height: SizeConfig.blockSizeVertical * 10,
                           child: Center(
-                              child: Text("${index + 1}",
+                              child: Text("k${index + 1}",
                                   style: TextStyle(
-                                      color: Color(0xFF7c16c84),
+                                      color: Color(0xFFf8f1d6),
                                       fontSize: 18))),
                           // child: Text(exam.getAnswer(index).toString()),
                         ),

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'keys.dart';
 
 import 'package:ehliyet_app/class/exam.dart';
 import 'package:ehliyet_app/class/question.dart';
@@ -8,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 exam() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  if(prefs.containsKey("lastFetch")){ 
+  if(prefs.containsKey("last_fetch")){ 
     DateTime lastFetch = DateTime.parse(await prefs.getString("last_fetch"));
     if(DateTime.now().difference(lastFetch) < Duration(days: 1))  return;
   }
@@ -42,8 +43,7 @@ exam() async {
 
 getData() async {
   //normal sorular = '1vf8aj8-8Y_QrTP3VMW8L-ceQabLVnFnh0q5OJftvmzY';
-  var spreadsheetID = '1ldCS_12RK4uVkDC94umn2_kRuxzQIPmAVn895j_jVQE';
-  var apiKey = 'AIzaSyC6vtjhopaYN0VgaBsHz8Acei2Kse3iRSk';
+
   var url = 'https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetID}/' +
       'values:batchGet?ranges=A2%3AA&ranges=B2%3AB&ranges=C2%3AC&ranges=D2%3AD' +
       '&ranges=E2%3AE&ranges=F2%3AF&ranges=G2%3AG&ranges=H2%3AH&ranges=I2%3AI&ranges=J2%3AJ&ranges=K2%3AK&ranges=L2%3AL' +

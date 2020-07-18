@@ -43,6 +43,9 @@ class _PerformancePageState extends State<PerformancePage> {
     ],
   );
 
+
+            
+
   var behs = [new charts.SeriesLegend(
                         showMeasures: true,
                         legendDefaultMeasure: charts.LegendDefaultMeasure.average,
@@ -58,6 +61,18 @@ class _PerformancePageState extends State<PerformancePage> {
 
   @override
   Widget build(BuildContext context) {
+      var widget = 
+            Container(
+                margin: EdgeInsets.symmetric(horizontal: 5, vertical: 12),
+                padding: EdgeInsets.all(56),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12),
+                    )),
+                child: Text("Grafikler İçin Test Çözmeniz Gerekir"),
+                );
+
     return Scaffold(
       appBar: AppBar(
           title: Text("Analizlerim", style: TextStyle(color: nicePink)),
@@ -90,7 +105,7 @@ class _PerformancePageState extends State<PerformancePage> {
               //         1.0,
               //     xAxis: dateList[i]));
             }
-            return ListView(children: [
+            return snapshot.data.length == 0 ? widget : ListView(children: [
               
               SizedBox(height: 24),
               Container(
@@ -107,7 +122,7 @@ class _PerformancePageState extends State<PerformancePage> {
                         charts.Series<ResultSeries, String>(
                             id: 'Yanlış',
                             colorFn: (ResultSeries res, _) =>
-                                charts.Color.fromHex(code: "#f7b186"),
+                                charts.Color.fromHex(code: "#d45656"),
                             domainFn: (ResultSeries res, _) =>
                                 TestResult().dtFormat(dateList[res.date]),
                             measureFn: (ResultSeries res, _) => res.count,
@@ -155,7 +170,7 @@ class _PerformancePageState extends State<PerformancePage> {
                             // TestResult().dtFormat(dateList[date]),
                             id: 'Yanlış',
                             colorFn: (ResultSeries res, _) =>
-                                charts.Color.fromHex(code: "#f7b186"),
+                                charts.Color.fromHex(code: "#d45656"),
                             domainFn: (ResultSeries res, _) =>
                                 TestResult().dtFormat(dateList[res.date]),
                             measureFn: (ResultSeries res, _) => res.count,
@@ -203,7 +218,7 @@ class _PerformancePageState extends State<PerformancePage> {
                             // TestResult().dtFormat(dateList[date]),
                             id: 'Yanlış',
                             colorFn: (ResultSeries res, _) =>
-                                charts.Color.fromHex(code: "#f7b186"),
+                                charts.Color.fromHex(code: "#d45656"),
                             domainFn: (ResultSeries res, _) =>
                                 TestResult().dtFormat(dateList[res.date]),
                             measureFn: (ResultSeries res, _) => res.count,
@@ -251,7 +266,7 @@ class _PerformancePageState extends State<PerformancePage> {
                             // TestResult().dtFormat(dateList[date]),
                             id: 'Yanlış',
                             colorFn: (ResultSeries res, _) =>
-                                charts.Color.fromHex(code: "#f7b186"),
+                                charts.Color.fromHex(code: "#d45656"),
                             domainFn: (ResultSeries res, _) =>
                                 TestResult().dtFormat(dateList[res.date]),
                             measureFn: (ResultSeries res, _) => res.count,

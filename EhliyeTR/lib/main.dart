@@ -2,6 +2,7 @@ import 'package:ehliyet_app/blocs/theme.dart';
 import 'package:ehliyet_app/class/exam.dart';
 import 'package:ehliyet_app/pages/AdminControls.dart';
 import 'package:ehliyet_app/pages/CardyExamPage.dart';
+import 'package:ehliyet_app/pages/LevhaPage.dart';
 import 'package:ehliyet_app/pages/PerformancePage.dart';
 import 'package:ehliyet_app/pages/lectureView.dart';
 import 'package:ehliyet_app/utils/SizeConfig.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:async/async.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,13 +77,18 @@ class _HomePageState extends State<HomePage> {
   BannerAd _bannerAd;
   String admobID = "ca-app-pub-4262806235664188~1212727631";
   InterstitialAd _intAd;
-
+  bool showAd = true;
+  bool adShown = false;
   BannerAd createBanner() {
     return BannerAd(
       adUnitId: "ca-app-pub-4262806235664188/5018883346",
       size: AdSize.banner,
       listener: (event) {
-        print("Ad $event");
+        if (showAd && !adShown) {
+          _bannerAd.show();
+          adShown = true;
+        }
+        ;
       },
     );
   }
@@ -91,21 +98,24 @@ class _HomePageState extends State<HomePage> {
         adUnitId: "ca-app-pub-4262806235664188/2201148310",
         listener: (event) {
           print("Int Ad $event");
+          _intAd.isLoaded().then((value) => value ? _intAd.show() : null);
         });
   }
 
   hideBanner() {
     setState(() {
       _bannerAd.dispose();
+      adShown = false;
+      showAd = false;
     });
   }
 
   @override
   void initState() {
-    FirebaseAdMob.instance.initialize(appId: admobID);
-    _bannerAd = createBanner();
-    _bannerAd.load();
-    _bannerAd.show();
+    FirebaseAdMob.instance.initialize(appId: admobID).then((value) {
+      _bannerAd = createBanner();
+      _bannerAd.load();
+    });
     super.initState();
   }
 
@@ -119,6 +129,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final _themeChanger = Provider.of<ThemeChanger>(context);
     SizeConfig().init(context);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -249,19 +260,23 @@ class _HomePageState extends State<HomePage> {
                             textAlign: TextAlign.center,
                           ),
                         ]),
-                    onTap: () {
+                    onTap: () {                     
                       hideBanner();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => WillPopScope(
                               onWillPop: () {
-                                _intAd = createIntAd()
-                                  ..load()
-                                  ..show();
-                                _bannerAd = createBanner()
-                                  ..load()
-                                  ..show();
+                                setState(() {
+                                  showAd = true;
+                                });
+                                _intAd = createIntAd();
+                                _intAd
+                                    .load(); //.then((value) => _intAd.isLoaded().then((value) => value ? _intAd.show() : print("\n\nNot Loadade\n\n")));
+
+                                _bannerAd = createBanner();
+                                _bannerAd.load();
+
                                 Navigator.pop(context);
                                 return Future.value(true);
                               },
@@ -281,7 +296,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          Flexible(flex: 1, child: Container()), // for ad and stuff
+          Flexible(flex: 1, child: Container()), // for ads and stuff
         ]),
       ),
     );

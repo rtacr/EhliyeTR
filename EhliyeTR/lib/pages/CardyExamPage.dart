@@ -30,8 +30,6 @@ class CardyExamPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _themeChanger = Provider.of<ThemeChanger>(context);
-
     ExamState examState = Provider.of<ExamState>(context);
     double initalX = 0;
 
@@ -66,8 +64,9 @@ class CardyExamPage extends StatelessWidget {
                           )),
                       RaisedButton(
                           onPressed: () {
-                            examState.revealAll();
                             Navigator.of(context).pop();
+                            examState.revealAll(c);
+
                           },
                           elevation: 0,
                           child: Text(
@@ -96,16 +95,6 @@ class CardyExamPage extends StatelessWidget {
         ),
         centerTitle: true,
         actions: [
-          IconButton(
-            icon: Icon(Icons.lightbulb_outline),
-            onPressed: () {
-              final currentTheme = _themeChanger.getTheme();
-              if (currentTheme == darkTheme)
-                _themeChanger.setTheme(lightTheme, false);
-              else
-                _themeChanger.setTheme(darkTheme, true);
-            },
-          ),
           // For resetting exam
           // IconButton(
           //   icon: Icon(Icons.loop),
@@ -137,10 +126,8 @@ class CardyExamPage extends StatelessWidget {
                     examState.changeQuestion(examState.getCurrentIndex() + 1);
                 }
               },
-              child: Container(
-                child:
-                    QuestionWidget(exam.questions[examState.getCurrentIndex()]),
-              ),
+              child:
+                  QuestionWidget(exam.questions[examState.getCurrentIndex()]),
             ),
           )),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -227,7 +214,7 @@ class CardyExamPage extends StatelessWidget {
                             clr = Color(0xFFf7b186);
                           }
                         } else {
-                          clr = Color(0xFFEF8262);
+                          clr = Color(0xFFd45656);
                         }
                       }
                       return InkWell(
@@ -245,7 +232,7 @@ class CardyExamPage extends StatelessWidget {
                           child: Center(
                               child: Text("${index + 1}",
                                   style: TextStyle(
-                                      color: Color(0xFF7c16c84),
+                                      color: Color(0xFFf8f1d6),
                                       fontSize: 18))),
                           // child: Text(exam.getAnswer(index).toString()),
                         ),

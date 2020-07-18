@@ -54,6 +54,7 @@ class DatabaseUtils {
 
   //Temp
   Future<Question> getQuestion() async {
+  
     var path = await getPath();
     Database database = await openDatabase(path, version: 1);
 
@@ -104,7 +105,7 @@ class StatisticsDB {
   Future<Database> databaseInit() async {
     var path = await getPath();
     return openDatabase(path, version: 1, onOpen: (db) {
-      var a = (db.execute("Select * from $statTable"));
+      var a = (db.query("$statTable"));
       if (a == null) {
       }
     }, onCreate: (Database db, int version) async {
@@ -143,8 +144,8 @@ class StatisticsDB {
   ///Return List Of Test Results
   Future<List<TestResult>> getAllResults() async {
     var path = await getPath();
-    Database database = await databaseInit();
-    String query = 'SELECT * FROM ' + statTable;
+    Database database = await databaseInit();     
+    String query = "select * from $statTable";
     var map = await database.rawQuery(query);
     return List<TestResult>.generate(
         map.length, (index) => TestResult().fromMap(map[index]));

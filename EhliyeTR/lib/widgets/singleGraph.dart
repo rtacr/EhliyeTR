@@ -37,6 +37,18 @@ class _PerformancePageState extends State<SingleGraphWidget> {
       future: sdb.getAllResults(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return CircularProgressIndicator();
+        if(snapshot.data.length == 0)
+            return Container(
+                margin: EdgeInsets.symmetric(horizontal: 5, vertical: 12),
+                padding: EdgeInsets.all(56),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12),
+                    )),
+                child: Text("Grafikler İçin Test Çözmeniz Gerekir"),
+                );
+            
         overallWrong = [];
         overallTrue = [];
         dateList = [];
@@ -53,64 +65,68 @@ class _PerformancePageState extends State<SingleGraphWidget> {
           dateList.add(DateTime.parse(snapshot.data[i].dateTime));
         }
         return Container(
-          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 12),
-          decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.all(
-                Radius.circular(12),
-              )),
-          child: Column(
-            children: [
-              SizedBox(height: 6),
-              Text(
-                'Genel Performans',
-                style: TextStyle(
-                    color: nicePink, fontWeight: FontWeight.w900),
-                textAlign: TextAlign.center,
-              ),
-              Expanded(
-                  child: charts.BarChart(
-                [
-                  charts.Series<ResultSeries, String>(
-                      id: 'Yanlış',
-                      colorFn: (ResultSeries res, _) =>
-                          charts.Color.fromHex(code: "#f7b186"),
-                      domainFn: (ResultSeries res, _) =>
-                          TestResult().dtFormat(dateList[res.date]),
-                      measureFn: (ResultSeries res, _) => res.count,
-                      data: List.generate(snapshot.data.length, (index) {
-                        return ResultSeries(
-                            count: snapshot.data[index].falseCount,
-                            date: index,
-                            color: Colors.green);
-                      })),
-                  charts.Series<ResultSeries, String>(
-                      id: 'Doğru',
-                      colorFn: (ResultSeries res, _) =>
-                          charts.Color.fromHex(code: "#7FAA98"),
-                      domainFn: (ResultSeries res, _) =>
-                          TestResult().dtFormat(dateList[res.date]),
-                      measureFn: (ResultSeries res, _) => res.count,
-                      data: List.generate(snapshot.data.length, (index) {
-                        return ResultSeries(
-                            count: snapshot.data[index].questionCount -
-                                snapshot.data[index].falseCount,
-                            date: index,
-                            color: Colors.green);
-                      })),
-                ],
-                behaviors: [new charts.SeriesLegend(
-                        showMeasures: true,
-                        legendDefaultMeasure: charts.LegendDefaultMeasure.average,
-                        outsideJustification: charts.OutsideJustification.endDrawArea,
-                        entryTextStyle: charts.TextStyleSpec(
-                          fontSize: 18,
-                          color: charts.Color.fromHex(code: "#c16c84")))],
-                barGroupingType: charts.BarGroupingType.grouped,
-              )),
-            ],
-          ),
-        );
+                margin: EdgeInsets.symmetric(horizontal: 5, vertical: 12),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(12),
+                    )),
+                child: Column(
+                  children: [
+                    SizedBox(height: 6),
+                    Text(
+                      'Genel Performans',
+                      style: TextStyle(
+                          color: nicePink, fontWeight: FontWeight.w900),
+                      textAlign: TextAlign.center,
+                    ),
+                    Expanded(
+                        child: charts.BarChart(
+                      [
+                        charts.Series<ResultSeries, String>(
+                            id: 'Yanlış',
+                            colorFn: (ResultSeries res, _) =>
+                                charts.Color.fromHex(code: "#d45656"),
+                            domainFn: (ResultSeries res, _) =>
+                                TestResult().dtFormat(dateList[res.date]),
+                            measureFn: (ResultSeries res, _) => res.count,
+                            data: List.generate(snapshot.data.length, (index) {
+                              return ResultSeries(
+                                  count: snapshot.data[index].falseCount,
+                                  date: index,
+                                  color: Colors.green);
+                            })),
+                        charts.Series<ResultSeries, String>(
+                            id: 'Doğru',
+                            colorFn: (ResultSeries res, _) =>
+                                charts.Color.fromHex(code: "#7FAA98"),
+                            domainFn: (ResultSeries res, _) =>
+                                TestResult().dtFormat(dateList[res.date]),
+                            measureFn: (ResultSeries res, _) => res.count,
+                            data: List.generate(snapshot.data.length, (index) {
+                              return ResultSeries(
+                                  count: snapshot.data[index].questionCount -
+                                      snapshot.data[index].falseCount,
+                                  date: index,
+                                  color: Colors.green);
+                            })),
+                      ],
+                      behaviors: [
+                        new charts.SeriesLegend(
+                            showMeasures: true,
+                            legendDefaultMeasure:
+                                charts.LegendDefaultMeasure.average,
+                            outsideJustification:
+                                charts.OutsideJustification.endDrawArea,
+                            entryTextStyle: charts.TextStyleSpec(
+                                fontSize: 18,
+                                color: charts.Color.fromHex(code: "#c16c84")))
+                      ],
+                      barGroupingType: charts.BarGroupingType.grouped,
+                    )),
+                  ],
+                ),
+              );
       },
     );
   }
